@@ -1,0 +1,190 @@
+   1               		.file	"segment.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	port_init
+  18               	port_init:
+  19               	.LFB7:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 1BBA      		out 59-32,__zero_reg__
+  25               	.LM3:
+  26 0002 8FEF      		ldi r24,lo8(-1)
+  27 0004 8ABB      		out 58-32,r24
+  28               	.LM4:
+  29 0006 18BA      		out 56-32,__zero_reg__
+  30               	.LM5:
+  31 0008 17BA      		out 55-32,__zero_reg__
+  32               	.LM6:
+  33 000a 15BA      		out 53-32,__zero_reg__
+  34               	.LM7:
+  35 000c 83E0      		ldi r24,lo8(3)
+  36 000e 84BB      		out 52-32,r24
+  37               	.LM8:
+  38 0010 12BA      		out 50-32,__zero_reg__
+  39               	.LM9:
+  40 0012 11BA      		out 49-32,__zero_reg__
+  41               	.LM10:
+  42 0014 13B8      		out 35-32,__zero_reg__
+  43               	.LM11:
+  44 0016 12B8      		out 34-32,__zero_reg__
+  45               	.LM12:
+  46 0018 1092 6200 		sts 98,__zero_reg__
+  47               	.LM13:
+  48 001c 1092 6100 		sts 97,__zero_reg__
+  49               	.LM14:
+  50 0020 1092 6500 		sts 101,__zero_reg__
+  51               	.LM15:
+  52 0024 8093 6400 		sts 100,r24
+  53               	/* epilogue start */
+  54               	.LM16:
+  55 0028 0895      		ret
+  56               	.LFE7:
+  58               	.global	main
+  60               	main:
+  61               	.LFB8:
+  62               	.LM17:
+  63               	/* prologue: function */
+  64               	/* frame size = 0 */
+  65               	.LM18:
+  66 002a 0E94 0000 		call port_init
+  67               	.LM19:
+  68 002e 18BA      		out 56-32,__zero_reg__
+  69               	.LM20:
+  70 0030 17BA      		out 55-32,__zero_reg__
+  71               	.LM21:
+  72 0032 80E8      		ldi r24,lo8(-128)
+  73 0034 85BF      		out 85-32,r24
+  74               	.LM22:
+  75 0036 8FEF      		ldi r24,lo8(-1)
+  76 0038 82BB      		out 50-32,r24
+  77               	.LM23:
+  78 003a 81BB      		out 49-32,r24
+  79 003c 21E0      		ldi r18,lo8(1)
+  80               	.LVL0:
+  81 003e 40E0      		ldi r20,lo8(0)
+  82               	.LVL1:
+  83 0040 30E0      		ldi r19,lo8(0)
+  84               	.LVL2:
+  85               	.LBB12:
+  86               	.LBB13:
+  87               	.LBB14:
+  88               	.LBB15:
+  89               	.LM24:
+  90 0042 6EE1      		ldi r22,lo8(30)
+  91 0044 70E0      		ldi r23,hi8(30)
+  92               	.LVL3:
+  93               	.L15:
+  94               	.LBE15:
+  95               	.LBE14:
+  96               	.LBE13:
+  97               	.LBE12:
+  98               	.LM25:
+  99 0046 56B3      		in r21,54-32
+ 100               	.LM26:
+ 101 0048 5417      		cp r21,r20
+ 102 004a 01F0      		breq .L4
+ 103               	.LM27:
+ 104 004c 5230      		cpi r21,lo8(2)
+ 105 004e 01F4      		brne .L5
+ 106 0050 30E0      		ldi r19,lo8(0)
+ 107 0052 00C0      		rjmp .L6
+ 108               	.L5:
+ 109               	.LM28:
+ 110 0054 5430      		cpi r21,lo8(4)
+ 111 0056 01F0      		breq .L7
+ 112               	.LM29:
+ 113 0058 5038      		cpi r21,lo8(-128)
+ 114 005a 01F0      		breq .L8
+ 115               	.LM30:
+ 116 005c 4038      		cpi r20,lo8(-128)
+ 117 005e 01F4      		brne .L4
+ 118 0060 5523      		tst r21
+ 119 0062 01F0      		breq .L9
+ 120               	.L4:
+ 121               	.LM31:
+ 122 0064 3130      		cpi r19,lo8(1)
+ 123 0066 01F0      		breq .L11
+ 124 0068 3130      		cpi r19,lo8(1)
+ 125 006a 00F0      		brlo .L6
+ 126 006c 3230      		cpi r19,lo8(2)
+ 127 006e 01F0      		breq .L12
+ 128 0070 3330      		cpi r19,lo8(3)
+ 129 0072 01F4      		brne .L10
+ 130 0074 00C0      		rjmp .L13
+ 131               	.L6:
+ 132               	.LM32:
+ 133 0076 2695      		lsr r18
+ 134               	.LM33:
+ 135 0078 01F4      		brne .L10
+ 136 007a 20E8      		ldi r18,lo8(-128)
+ 137 007c 00C0      		rjmp .L10
+ 138               	.L7:
+ 139 007e 31E0      		ldi r19,lo8(1)
+ 140               	.L11:
+ 141               	.LM34:
+ 142 0080 220F      		lsl r18
+ 143               	.LM35:
+ 144 0082 01F4      		brne .L10
+ 145 0084 21E0      		ldi r18,lo8(1)
+ 146 0086 00C0      		rjmp .L10
+ 147               	.L8:
+ 148 0088 32E0      		ldi r19,lo8(2)
+ 149               	.L12:
+ 150               	.LM36:
+ 151 008a 2223      		tst r18
+ 152 008c 01F4      		brne .L13
+ 153 008e 2FEF      		ldi r18,lo8(-1)
+ 154 0090 00C0      		rjmp .L10
+ 155               	.L9:
+ 156 0092 33E0      		ldi r19,lo8(3)
+ 157               	.L13:
+ 158 0094 20E0      		ldi r18,lo8(0)
+ 159               	.L10:
+ 160               	.LM37:
+ 161 0096 2093 0880 		sts -32760,r18
+ 162 009a 88E8      		ldi r24,lo8(5000)
+ 163 009c 93E1      		ldi r25,hi8(5000)
+ 164               	.L14:
+ 165               	.LBB19:
+ 166               	.LBB18:
+ 167               	.LBB17:
+ 168               	.LBB16:
+ 169               	.LM38:
+ 170 009e FB01      		movw r30,r22
+ 171               	/* #APP */
+ 172               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 173 00a0 3197      		1: sbiw r30,1
+ 174 00a2 01F4      		brne 1b
+ 175               	 ;  0 "" 2
+ 176               	/* #NOAPP */
+ 177               	.LBE16:
+ 178               	.LBE17:
+ 179               	.LM39:
+ 180 00a4 0197      		sbiw r24,1
+ 181 00a6 452F      		mov r20,r21
+ 182               	.LM40:
+ 183 00a8 01F4      		brne .L14
+ 184 00aa 00C0      		rjmp .L15
+ 185               	.LBE18:
+ 186               	.LBE19:
+ 187               	.LFE8:
+ 221               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 segment.c
+C:\Users\辫己林\AppData\Local\Temp/ccyGJ6XW.s:2      *ABS*:0000003f __SREG__
+C:\Users\辫己林\AppData\Local\Temp/ccyGJ6XW.s:3      *ABS*:0000003e __SP_H__
+C:\Users\辫己林\AppData\Local\Temp/ccyGJ6XW.s:4      *ABS*:0000003d __SP_L__
+C:\Users\辫己林\AppData\Local\Temp/ccyGJ6XW.s:5      *ABS*:00000034 __CCP__
+C:\Users\辫己林\AppData\Local\Temp/ccyGJ6XW.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\辫己林\AppData\Local\Temp/ccyGJ6XW.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\辫己林\AppData\Local\Temp/ccyGJ6XW.s:18     .text:00000000 port_init
+C:\Users\辫己林\AppData\Local\Temp/ccyGJ6XW.s:60     .text:0000002a main
+
+NO UNDEFINED SYMBOLS
