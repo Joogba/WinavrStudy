@@ -70,7 +70,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = segment2
+TARGET = dotmatrics
 
 
 # Object files directory
