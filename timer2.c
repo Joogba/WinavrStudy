@@ -9,11 +9,14 @@
 #define CLI() cli()
 #define SEI() sei()
 
+unsigned char segment_data[11] = {0x3f, 0x06, 0x5b, 0x4f, 0x66,
+								0x6d, 0x7d, 0x27, 0x7f, 0x6f, 0}; //0,1,2,3,4,5,6,7,8,9, blank
 float temp_time = 0.0f;
 int cur_time_arr[4] = { 1,7,5,1 };
 int stop_time_arr[4] = { 0, };
 int alram_time_arr[4] = { 1,8,0,0 };
 int blank_arr[4] = { 10, }; // 깜빡일때 사용
+int print_arr[4] = { 0,};
 
 int alram_count = 0; // 알람 열번깜빡
 int alram_state = 0; // 알람 on off
@@ -28,6 +31,7 @@ int count_int;
 	
 unsigned char keydata, key_old;
 
+int printDigit=0;
 
 
 
@@ -57,14 +61,13 @@ void port_init(void)
 
 void timer0_init(void)
 { 	
-	TCCR0 = 0x07;
+	TCCR0 = 0x05;
 	TCNT0 = 0x00;
 	ASSR = 0x00;
 	TIMSK = 0x01;
 }
 
-unsigned char segment_data[11] = {0x3f, 0x06, 0x5b, 0x4f, 0x66,
-								0x6d, 0x7d, 0x27, 0x7f, 0x6f, 0}; //0,1,2,3,4,5,6,7,8,9, blank
+
 
 // m0~s1 을 배열로만들어서 1.현재시간, 2.스탑워치 배열 2개를 만든다.
 //상태 1 : 현재시간 표시 시간흐름
@@ -131,6 +134,7 @@ void PrintTime(int* arr)
 {
 	EX_SS_SEL=~(0x01);
 	EX_SS_DATA=segment_data[arr[0]];
+	
 	EX_SS_SEL=~(0x02);
 	EX_SS_DATA=segment_data[arr[1]];
 	EX_SS_SEL=~(0x04);
@@ -163,7 +167,7 @@ ISR(TIMER0_OVF_vect) // oc0 & ctc mode ? ISR(TIMER0_COMP_vect)
 		{			
 			case 0: // 현재시간
 				RunningTime(cur_time_arr ,&temp_time);
-				PrintTime(cur_time_arr);
+				
 				if (alram_state == 1 && alram_count < 5) // 열번 깜빡이고 끝
 				{					
 					alram_count++;					
@@ -195,25 +199,33 @@ ISR(TIMER0_OVF_vect) // oc0 & ctc mode ? ISR(TIMER0_COMP_vect)
 	switch (state) // 출력부
 		{			
 			case 0: // 현재시간
-				
-				PrintTime(cur_time_arr);
+				TimeCopy(print_arr, cur_time_arr);
+				//PrintTime(cur_time_arr);
+				Copy
 				if (alram_state == 1 && alram_count < 10) // 열번 깜빡이고 끝
 				{
 					PrintTime(blank_arr);				
 				}
-				break;
+				//break;
 			case 1: // 시간조절
-				PrintTime(cur_time_arr);
+				TimeCopy(print_arr, cur_time_arr);
+				//PrintTime(cur_time_arr);
 				break;
 			case 2: // 스탑워치
-				PrintTime(stop_time_arr);
+				//PrintTime(stop_time_arr);
+				TimeCopy(print_arr, stop_time_arr);
 					
 				break;
 			case 3: // 알람
 				// 키입력으로 시간
-				PrintTime(alram_time_arr);
+				//PrintTime(alram_time_arr);
+				TimeCopy(print_arr, alram_time_arr);
 				break;
 		};
+		
+	EX_SS_DATA =
+	segment_data[print_arr[printDigit]];
+	EX_SS_SEL = ~(0x01 << printDigit);
 }
 
 
