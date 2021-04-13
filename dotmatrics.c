@@ -16,9 +16,9 @@ unsigned char dot_dmi = 0, dot_scroll = 0, dot_idx=0;
 \
 int name_data_f[50] = {
 						0,0,0,0,0,0,0,0,0,0,
-						0x0f2, 0x012,0x012,0x012, 0, 0x01e,0x012,0x012,0x01e,0,		// ±è
-						0x022, 0x06e, 0x0a2, 0x122, 0, 0x038, 0x044, 0x044, 0x038, 0,	// ¼º
-						0, 0x1fe, 0x048, 0x084, 0x102, 0, 0x1fe, 0x010, 0x010, 0,		// ÁÖ
+						0x0f2, 0x012,0x012,0x012, 0, 0x01e,0x012,0x012,0x01e,0,		// ê¹€
+						0x022, 0x06e, 0x0a2, 0x122, 0, 0x038, 0x044, 0x044, 0x038, 0,	// ì„±
+						0, 0x1fe, 0x048, 0x084, 0x102, 0, 0x1fe, 0x010, 0x010, 0,		// ì£¼
 						0,0,0,0,0,0,0,0,0,0,
 					};
 
@@ -26,7 +26,7 @@ int name_data_f[50] = {
 unsigned char segment_data[11] = {0x3f, 0x06, 0x5b, 0x4f, 0x66,
 								0x6d, 0x7d, 0x27, 0x7f, 0x6f, 0};
 								
-unsigned char display_num[17] = {10,10,10,2,0,1,7,1,5,4,0,0,9,10,10,10,10}; // ÇĞ¹ø
+unsigned char display_num[17] = {10,10,10,2,0,1,7,1,5,4,0,0,9,10,10,10,10}; // í•™ë²ˆ
 
 void port_init(void)
 {
@@ -61,7 +61,7 @@ void dot_matrix(void)
 	{
 		dot_dmi = 0;
 		dot_scroll++;
-		if (dot_scroll > 300) {
+		if (dot_scroll > 10) {
 			dot_scroll = 0;
 			dot_idx++;
 			if (dot_idx > 40)
@@ -69,7 +69,7 @@ void dot_matrix(void)
 		}
 	}
 	
-	_delay_ms(10);
+	
 }
 
 void print_segment(void)
@@ -100,12 +100,12 @@ int main(void)
 {
 	port_init();
 	
-	EX_SS_SEL = 0x0f; // ÃÊ±â°ªÀ¸·Î µğÁöÆ® OFF
+	EX_SS_SEL = 0x0f; // ì´ˆê¸°ê°’ìœ¼ë¡œ ë””ì§€íŠ¸ OFF
 	MCUCR = 0x80;
 	PORTB = 0x00;
 	DDRB = 0x00;
-    PORTD = 0xff; // PORTD ÃÊ±â°ª ¼³Á¤	
-	DDRD = 0xff; // PORTD  ¸ğµÎ Ãâ·ÂÀ¸·Î ¼³Á¤	 
+    PORTD = 0xff; // PORTD ì´ˆê¸°ê°’ ì„¤ì •	
+	DDRD = 0xff; // PORTD  ëª¨ë‘ ì¶œë ¥ìœ¼ë¡œ ì„¤ì •	 
 	
 	int state = 0;
 	unsigned char keydata, key_old;
@@ -116,15 +116,15 @@ int main(void)
 		keydata = PINB & 0xff;
 		if (keydata != key_old)
 		{
-			if (keydata == 0x01) // ÀÌ¸§
+			if (keydata == 0x01) // ì´ë¦„
 			{
 				state = 0;
 			}
-			else if (keydata == 0x02) // ÇĞ¹ø 
+			else if (keydata == 0x02) // í•™ë²ˆ 
 			{
 				state = 1; 
 			}
-			else if (keydata == 0x04)  // µÑ´Ù 
+			else if (keydata == 0x04)  // ë‘˜ë‹¤ 
 			{
 				state = 2; 
 			}
@@ -134,15 +134,15 @@ int main(void)
 		switch(state)
 		{
 		case 0:
-			dot_matrix(); //´å ¸ÅÆ®¸¯½º Ãâ·Â
-			
+			dot_matrix(); //ë‹· ë§¤íŠ¸ë¦­ìŠ¤ ì¶œë ¥
+			_delay_ms(1);
 			break;
 		case 1:
 			print_segment();
 			
 			break;
 		case 2:
-			dot_matrix(); //´å ¸ÅÆ®¸¯½º Ãâ·Â
+			dot_matrix(); //ë‹· ë§¤íŠ¸ë¦­ìŠ¤ ì¶œë ¥
 			print_segment();
 			break;
 		default:
