@@ -246,6 +246,8 @@ int main(void)
 		if (keydata != key_old)
 		{
 			if (keydata == 0x01) state = 0;  // 현재시간
+			
+			
 			else if (keydata == 0x02) // 시간조절
 			{
 				state = 1; 
@@ -254,12 +256,12 @@ int main(void)
 				
 				
 			}
-			else if(key_old == 0x01 && keydata == 0x10)  //자리수변경
+			else if(key_old == 0x02 && keydata == 0x10)  //자리수변경
 			{
 					setDigitCount++;
 					setDigitCount %= 4;
 			}
-			else if(key_old == 0x01 && keydata == 0x20) // 
+			else if(key_old == 0x02 && keydata == 0x20) // 
 			{					
 					cur_time_arr[setDigitCount]++;
 					if(setDigitCount == 0 || setDigitCount == 2)
@@ -267,6 +269,9 @@ int main(void)
 					else 
 						cur_time_arr[setDigitCount] %= 10;
 			}
+			
+			
+			
 			else if (keydata == 0x04) 
 			{
 				state = 2; // 스탑워치
@@ -278,6 +283,9 @@ int main(void)
 					stopwatch_stop = 1;
 			else if(key_old == 0x04 && keydata == 0x10 && stopwatch_stop == 1) // 안가고있으면 다시 흐름
 					stopwatch_stop = 0;
+					
+					
+					
 			else if (keydata == 0x08) 
 			{
 				state = 3;// 알람설정
@@ -293,7 +301,7 @@ int main(void)
 					setDigitCount++;
 					setDigitCount %= 4;
 				}
-				else if(keydata == 0x20) // 숫자 변경
+				else if(key_old == 0x08 && keydata == 0x20) // 숫자 변경
 				{
 					alram_time_arr[setDigitCount]++;
 					if(setDigitCount == 0 || setDigitCount == 2)
