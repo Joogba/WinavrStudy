@@ -252,30 +252,32 @@ int main(void)
 				setDigitCount = 0;
 				setNumCount = 0; 
 				
-				if(keydata == 0x10)  //자리수변경
-				{
+				
+			}
+			else if(key_old == 0x01 && keydata == 0x10)  //자리수변경
+			{
 					setDigitCount++;
 					setDigitCount %= 4;
-				}
-				else if(keydata == 0x20) // 
-				{					
+			}
+			else if(key_old == 0x01 && keydata == 0x20) // 
+			{					
 					cur_time_arr[setDigitCount]++;
 					if(setDigitCount == 0 || setDigitCount == 2)
 						cur_time_arr[setDigitCount] %= 6;
 					else 
 						cur_time_arr[setDigitCount] %= 10;
-				}
 			}
 			else if (keydata == 0x04) 
 			{
 				state = 2; // 스탑워치
 				SetTimeZero(stop_time_arr);
 				
-				if(keydata == 0x10 && stopwatch_stop == 0)	// 시간 가고있으면 멈춤				
-					stopwatch_stop = 1;
-				else if(keydata == 0x10 && stopwatch_stop == 1) // 안가고있으면 다시 흐름
-					stopwatch_stop = 0;
+				
 			}
+			else if(key_old == 0x04 && keydata == 0x10 && stopwatch_stop == 0)	// 시간 가고있으면 멈춤				
+					stopwatch_stop = 1;
+			else if(key_old == 0x04 && keydata == 0x10 && stopwatch_stop == 1) // 안가고있으면 다시 흐름
+					stopwatch_stop = 0;
 			else if (keydata == 0x08) 
 			{
 				state = 3;// 알람설정
@@ -283,7 +285,10 @@ int main(void)
 				setDigitCount = 0;
 				setNumCount = 0;
 				
-				if(keydata == 0x10)  //자리수변경
+				
+				
+			}
+			else if(key_old == 0x08 && keydata == 0x10)  //자리수변경
 				{
 					setDigitCount++;
 					setDigitCount %= 4;
@@ -296,8 +301,7 @@ int main(void)
 					else
 					alram_time_arr[setDigitCount] %= 10;
 				}
-				
-			}
+			
 		}
 		
 		if (CompareTime(cur_time_arr, alram_time_arr) == 1) // 알람 on
