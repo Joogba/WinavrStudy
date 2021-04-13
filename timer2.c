@@ -160,6 +160,10 @@ void init_devices(void)
 ISR(TIMER0_OVF_vect) // oc0 & ctc mode ? ISR(TIMER0_COMP_vect)
 { 
 	TCNT0 = 0x00; //reload counter value
+	
+	printDigit++;
+	printDigit = printDigit %4;
+	
 	count_int++;
 	if(count_int == 488) 
 	{	
@@ -201,7 +205,7 @@ ISR(TIMER0_OVF_vect) // oc0 & ctc mode ? ISR(TIMER0_COMP_vect)
 			case 0: // 현재시간
 				TimeCopy(print_arr, cur_time_arr);
 				//PrintTime(cur_time_arr);
-				Copy
+				
 				if (alram_state == 1 && alram_count < 10) // 열번 깜빡이고 끝
 				{
 					PrintTime(blank_arr);				
