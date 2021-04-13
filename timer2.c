@@ -153,7 +153,7 @@ void init_devices(void)
 	SEI();
 }
 
-ISR(TIMER0_COMP_vect) // oc0 & ctc mode ? ISR(TIMER0_COMP_vect)
+ISR(TIMER0_OVF_vect) // oc0 & ctc mode ? ISR(TIMER0_COMP_vect)
 { 
 	TCNT0 = 0x00; //reload counter value
 	count_int++;
